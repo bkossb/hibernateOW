@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 3.0 License
+
+Name       : Unofficial Channels
+Description: A two-column, fixed-width design with a bright color scheme.
+Version    : 1.0
+Released   : 20120723
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>
+        Bazar aplikacji
+    </title>
+    <link href="http://fonts.googleapis.com/css?family=Arvo" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script language="JavaScript">
+
+        // Ustaw aktywny kursor na okienku wyszukiwania po załadowaniu strony
+        window.onload = function() {
+            document.forms[0].elements["searchString"].focus();
+        }
+
+        // Gdy zostanie wciśnięty przycisk "Szukaj", upewnij się że pole nie jest puste i wyślij formularz
+        function submitSearchForm() {
+            var searchString = document.forms[0].elements["searchString"];
+            if(searchString.value == null || searchString.value.replace(/^\s+|\s+$/g, '') == "") {
+                alert("Musisz wpisać jakieś słowa kluczowe");
+            } else {
+                document.forms[0].submit();
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="bg1"></div>
+<div id="bg2"></div>
+<div id="outer">
+    <div id="header">
+        <div id="logo">
+            <h1><a href="index.html"><i>Bazar aplikacji</i></a></h1>
+        </div>
+        <form action="search" method="post">
+            <div id="search">
+                <div>
+                    <input class="text" name="searchString" size="32" maxlength="64" />
+                    <img src="images/search.png" style="margin: -13px;" onclick="submitSearchForm()"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="banner">
+        <div class="captions">
+            <h2><i>Największe</i>&nbsp;&nbsp;źródło aplikacji, niekoniecznie ukończonych</h2>
+        </div>
+        <img src="images/banner.jpg" alt="" height="150" width="1180"/>
+    </div>
+    <div id="main">
+        <div id="sidebar">
+            <div class="box">
+                <h3>Nadchodzące premiery</h3>
+                <div class="dateList">
+                    <ul class="linkedList dateList">
+                        <li class="first">
+                            <span class="date">23 lipca</span> Sfrustrowane flamingi
+                        </li>
+                        <li>
+                            <span class="date">28 lipca</span> Chmura!
+                        </li>
+                        <li>
+                            <span class="date">7 sierpnia</span> Namierzacz zszywaczy
+                        </li>
+                        <li>
+                            <span class="date">9 sierpnia</span> Temperówka
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="content">
+            <div class="box">
+                <h2>Witaj na  <i>bazarze aplikacji</i></h2>
+                <img src="images/appguy.jpg" width="100" height="150" alt="" class="left" />
+                <p>
+                    Bazar aplikacji to miejsce, w którym znajdziesz najwspanialsze wyimaginowane aplikacje mobilne,
+                    niekoniecznie zaimplementowane w rzeczywistym świecie. By przeszukać zbiór naszych wyimaginowanych aplikacji,
+                    po prostu wpisz słowa kluczowe w okienku w prawym górnym rogu.
+                </p>
+                <p>
+                    Naszych wyimaginowanych cen nie da się przebić! Mamy nadzieję, że spodoba Ci się udawanie, że ściągasz
+                    nasze wyimaginowane aplikacje na Twoje nieistniejące urządzenie.
+                </p>
+            </div>
+            <div class="box">
+                <h3>Dodatkowy tekst, nigdy przez nikogo nieczytany!</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius, augue non fermentum
+                    fermentum, erat magna convallis urna, ac eleifend arcu lorem eu tellus. Aenean ligula turpis,
+                    pharetra eget vestibulum a, venenatis sed leo. Etiam varius eleifend tincidunt. Phasellus ac nulla
+                    magna. Quisque vitae sem enim. Maecenas consectetur ipsum sit amet massa iaculis vel malesuada
+                    augue fringilla. Nullam molestie arcu non enim vulputate rhoncus. Vestibulum lacinia felis vel nisi
+                    adipiscing a congue velit consequat. Aliquam ipsum lorem, condimentum vitae congue a, lacinia vel
+                    dolor. Sed quis nunc arcu, sit amet facilisis lectus. Fusce viverra urna nunc. Donec a tellus sit
+                    amet est auctor dignissim vel tempus metus. Nullam pulvinar ornare turpis. Ut dictum tortor vitae
+                    velit elementum in tincidunt neque posuere.
+                </p>
+                <ul class="linkedList">
+                    <li class="first">
+                        <a href="#">Turpis et posuere urna dolor justo</a>
+                    </li>
+                    <li>
+                        <a href="#">Fringilla sem nisl purus lobortis magnis magna pellentesque</a>
+                    </li>
+                    <li>
+                        <a href="#">Venenatis magna ultricies sollicitudin sodales commodo nibh aenean</a>
+                    </li>
+                    <li>
+                        <a href="#">Magnis luctus penatibus non natoque nascetur tempus erat</a>
+                    </li>
+                    <li class="last">
+                        <a href="#">Penatibus dolor pharetra viverra ac erat proin</a>
+                    </li>
+                </ul>
+            </div><br class="clear" />
+        </div><br class="clear" />
+    </div>
+</div>
+<div id="copyright">
+    Ta aplikacja korzysta z plików HTML/CSS ze strony <a href="http://www.freecsstemplates.org/">freecsstemplates.org</a>,
+    oraz zdjęć z <a href="http://fotogrph.com/">Fotogrph</a>, obu dostępnych na licencji
+    <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution license</a>.
+</div>
+</body>
+</html>
