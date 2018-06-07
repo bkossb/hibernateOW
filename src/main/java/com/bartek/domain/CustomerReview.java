@@ -1,21 +1,39 @@
 package com.bartek.domain;
 
-import org.hibernate.search.annotations.Field;
+import com.bartek.util.FiveStarBoostStrategy;
+import org.apache.solr.analysis.HTMLStripCharFilterFactory;
+import org.apache.solr.analysis.StandardFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.apache.solr.analysis.StopFilterFactory;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
+@AnalyzerDef(
+        name = "customerReviewAnalyzer",
+        charFilters = {@CharFilterDef(factory = HTMLStripCharFilterFactory.class)},
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = StandardFilterFactory.class),
+                @TokenFilterDef(factory = StopFilterFactory.class)
+        }
+)
+@DynamicBoost(impl = FiveStarBoostStrategy.class)
 public class CustomerReview {
 
     @Field
     private String username;
 
+    @Field
+    @NumericField
     private int stars;
 
     @Field
+    @Analyzer(definition = "customerReviewAnalyzer")
     private String comments;
 
-    public CustomerReview(){
+    public CustomerReview() {
 
     }
 

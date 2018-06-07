@@ -87,75 +87,115 @@
         </div>
     </div>
     <div id="content">
-        <div class="box"><h2>Wyniki wyszukiwania</h2></div>
-    </div>
-    <table style="width: 100%; margin-left:auto; margin-right: auto">
-        <c:forEach items="${apps}" var="app" varStatus="loop">
-            <tr>
-                <td style="width: 25%; text-align: center; vertical-align: middle;" rowspan="2">
-                    <img src="images/apps/${app.image}" alt="">
-                </td>
-                <td style="height: 1em; width: 75%; text-align: left; vertical-align: bottom; border-bottom: thin dotted black">
-                    <b>${app.name}</b>
-                    <input type="button" id="appDetailButton_${loop.index}" value="Szczegóły"></td>
-            </tr>
-            <tr>
-                <td style="text-align: left; vertical-align: top; padding-bottom: 30px;">${app.description}</td>
-            </tr>
+        <div class="box">
+            <table>
+                <tr>
+                    <td valign="top"><h2>Wyniki wyszukiwania</h2></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td valign="top">
+                        <form action="search" method="post" id="sortedSearchForm">
+                            <label for="sortField">Sortuj wg:</label>
+                            <select name="sortField" id="sortField" onchange="submitSearchForm()">
+                                <option value="relevance" ${sortField == 'relevance' ? 'selected= "selected"' : ''}>
+                                    WAŻNOŚC
+                                </option>
+                                <option value="name" ${sortField == 'name' ? 'selected="selected"' : ''}>NAZWY (A-Z)
+                                </option>
+                                <option value="name" ${sortField == 'name-reverse' ? 'selected="selected"' : ''}>NAZWY
+                                    (Z-A)
+                                </option>
+                            </select>
+                            <input type="hidden" name="searchString"
+                                   value='?{fn:replace(searchString, "\"", "&quot;")}'/>
+                        </form>
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td valign="top">
+                        Wyniki: ${firstResult + 1} -${firstResult + 5 < resultSize ? firstResult +5 : resultSize} z
+                        ${resultSize} &nbsp;&nbsp;&nbsp;
+                        <c:if test="${firstResult > 0}">
+                            (<a href='<c:url value="search">
+                            <c:param name="searchString" value="${searchString}"/>
+                            <c:param name="sortField" value="${sortField}"/>
+                            <c:param name="firstResult" value="${firstResult - 5}"/>
+                        </c:url>'>Poprzednie</a>)
+                        </c:if>
+                        <c:if test="${firstResult+5 < resultSize}">
+                            (<a href='<c:url value="search">
+                            <c:param name="searchString" value="${searchString}"/>
+                            <c:param name="sortField" value="${sortField}"/>
+                            <c:param name="firstResult" value="${firstResult + 5}"/>
+                        </c:url>'>Następne</a>)
+                        </c:if>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%; margin-left:auto; margin-right: auto">
+                <c:forEach items="${apps}" var="app" varStatus="loop">
+                    <tr>
+                        <td style="width: 25%; text-align: center; vertical-align: middle;" rowspan="2">
+                            <img src="images/apps/${app.image}" alt="">
+                        </td>
+                        <td style="height: 1em; width: 75%; text-align: left; vertical-align: bottom; border-bottom: thin dotted black">
+                            <b>${app.name}</b>
+                            <input type="button" id="appDetailButton_${loop.index}" value="Szczegóły"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left; vertical-align: top; padding-bottom: 30px;">${app.description}</td>
+                    </tr>
 
 
-            <div style="font-size: 10px; display:none;">
-                <div id="appDetail_${loop.index}" title="Szczegóły">
-                    <img src="images/apps/${app.image}" style="float: left; margin: 10px;" alt="">
-                    <b>${app.name}</b>
-                    <input type="button" value="Instaluj" onclick="installApp()">
-                    <hr>
+                    <div style="font-size: 10px; display:none;">
+                        <div id="appDetail_${loop.index}" title="Szczegóły">
+                            <img src="images/apps/${app.image}" style="float: left; margin: 10px;" alt="">
+                            <b>${app.name}</b>
+                            <input type="button" value="Instaluj" onclick="installApp()">
+                            <hr>
 
-                    <br>
-                        ${app.description}
-                    <br><br>
-                    <hr>
+                            <br>
+                                ${app.description}
+                            <br><br>
+                            <hr>
 
-                    Wspierane urządzenia:
+                            Wspierane urządzenia:
 
-                    <c:forEach items="${app.supportedDevices}" var="customerReview" varStatus="devicesLoop">
-                        ${device.manufactured} ${device.name}<c:if test="${not devicesLoop.last}">,</c:if>
-                    </c:forEach>
-                    <hr>
-                    <br>
+                            <c:forEach items="${app.supportedDevices}" var="customerReview" varStatus="devicesLoop">
+                                ${device.manufactured} ${device.name}<c:if test="${not devicesLoop.last}">,</c:if>
+                            </c:forEach>
+                            <hr>
+                            <br>
 
-                    Opinie klientów:
+                            Opinie klientów:
 
-                    <br>
-                    <hr>
+                            <br>
+                            <hr>
 
-                    <c:forEach items="${app.customerReviews}" var="customerReview">
-                        <b>${customerReview.stars} na 5 gwiazdek</b>
-                        (użytkownik: <i> ${customerReview.username}</i><br>
-                        ${customerReview.comments}
-                        <br>
-                        <br>
-                    </c:forEach>
-                </div>
-            </div>
+                            <c:forEach items="${app.customerReviews}" var="customerReview">
+                                <b>${customerReview.stars} na 5 gwiazdek</b>
+                                (użytkownik: <i> ${customerReview.username}</i><br>
+                                ${customerReview.comments}
+                                <br>
+                                <br>
+                            </c:forEach>
+                        </div>
+                    </div>
 
-            <script language="JavaScript">
-                $(function () {
-                    $("#appDetailButton_${loop.index}").click(function () {
-                        $("#appDetail_${loop.index}").dialog({
-                            width: 650, modal: true
+                    <script language="JavaScript">
+                        $(function () {
+                            $("#appDetailButton_${loop.index}").click(function () {
+                                $("#appDetail_${loop.index}").dialog({
+                                    width: 650, modal: true
+                                });
+                            });
                         });
-                    });
-                });
-            </script>
-        </c:forEach>
-    </table>
-
-    <div>
+                    </script>
+                </c:forEach>
+            </table>
+        </div>
         <br class="clear">
     </div>
     <br class="clear">
-
+</div>
 </div>
 </body>
 </html>

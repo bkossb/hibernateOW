@@ -1,7 +1,11 @@
 package com.bartek.domain;
 
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,8 +25,12 @@ public class Device implements Serializable {
     private String manufacturer;
 
     @Column
-    @Field
+    @Fields({
+            @Field,
+            @Field(name = "sorting_name", analyze = Analyze.NO)
+    })
     private String name;
+
 
     @ManyToMany(mappedBy = "supportedDevices", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @ContainedIn

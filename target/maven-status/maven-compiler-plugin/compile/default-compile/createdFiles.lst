@@ -1,5 +1,7 @@
 com/bartek/domain/Device.class
-com/bartek/servlet/SearchServlet.class
 com/bartek/util/StartupDataLoader.class
-com/bartek/domain/CustomerReview.class
 com/bartek/domain/App.class
+com/bartek/util/IndexWhenActiveInterceptor.class
+com/bartek/util/FiveStarBoostStrategy.class
+com/bartek/servlet/SearchServlet.class
+com/bartek/domain/CustomerReview.class

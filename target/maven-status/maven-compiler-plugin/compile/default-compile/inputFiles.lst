@@ -2,4 +2,6 @@
 /home/bartek/IdeaProjects/BazarAplikacji-master/src/main/java/com/bartek/servlet/SearchServlet.java
 /home/bartek/IdeaProjects/BazarAplikacji-master/src/main/java/com/bartek/domain/CustomerReview.java
 /home/bartek/IdeaProjects/BazarAplikacji-master/src/main/java/com/bartek/util/StartupDataLoader.java
+/home/bartek/IdeaProjects/BazarAplikacji-master/src/main/java/com/bartek/util/FiveStarBoostStrategy.java
+/home/bartek/IdeaProjects/BazarAplikacji-master/src/main/java/com/bartek/util/IndexWhenActiveInterceptor.java
 /home/bartek/IdeaProjects/BazarAplikacji-master/src/main/java/com/bartek/domain/Device.java

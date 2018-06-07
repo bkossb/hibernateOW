@@ -1,17 +1,38 @@
 package com.bartek.domain;
 
+import com.bartek.util.IndexWhenActiveInterceptor;
+import org.apache.solr.analysis.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.NumericField;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Indexed
+@Indexed(interceptor = IndexWhenActiveInterceptor.class)
+
+//@AnalyzerDef definiuje powiązanie analyzera z polem description oraz dodaje filtry usuwające literówki
+@AnalyzerDef(
+        name = "appAnalyzer",
+        charFilters = {@CharFilterDef(factory = HTMLStripCharFilterFactory.class)},
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = StandardFilterFactory.class),
+                @TokenFilterDef(factory = StopFilterFactory.class),
+                @TokenFilterDef(factory = PhoneticFilterFactory.class, params = {
+                        @Parameter(name = "encoder", value = "DoubleMetaphone")
+                }),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @Parameter(name = "language", value = "English")
+                })
+        }
+)
+
+//@Boost podwaja wagę wyliczania wartości wyników wyszukiwania
+@Boost(2.0f)
 public class App {
 
     private static final long serialVersionUID = 1L;
@@ -20,12 +41,21 @@ public class App {
     @GeneratedValue
     private Long id;
 
-    @Column(length = 1000)
-    @Field
-    private String name;
 
     @Column(length = 1000)
+    @Fields({
+            @Field, //indeksowanie z rozbitymi wartościami
+            @Field(name = "sorting_name", analyze = Analyze.NO) //indeksowanie z nierozbitymi wartosciami do sortowania wyników
+    })
+    @Boost(1.5f) //zwieksza wagę podczas wyliczania wartosci wyników wyszukiwania
+    private String name;
+
+
+    //dluzszy opis
+    @Column(length = 1000)
     @Field
+    @Analyzer(definition = "appAnalyzer")
+    @Boost(1.2f)
     private String description;
 
     @Column(length = 1000)
@@ -36,13 +66,19 @@ public class App {
     @NumericField(forField = "price")
     private float price;
 
+    //data wydania aplikacji @DataBridge deklarowanie indeksowania od poziomu dnia
+    @Column
+    @Field
+    @DateBridge(resolution = Resolution.DAY)
+    private Date relaseData;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @IndexedEmbedded(depth = 1)
     private Set<Device> supportedDevices;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    @IndexedEmbedded(depth = 1, includePaths = {"comments"})
+    @IndexedEmbedded(depth = 1, includePaths = {"comments", "stars"})
     private Set<CustomerReview> customerReviews;
 
     @Column
@@ -72,7 +108,17 @@ public class App {
         this.name = name;
         this.description = description;
         this.image = image;
-        this.active = active;
+        this.active = true;
+        this.relaseData = new Date();
+        this.price = 0.99f;
+    }
+
+    public Date getRelaseData() {
+        return relaseData;
+    }
+
+    public void setRelaseData(Date relaseData) {
+        this.relaseData = relaseData;
     }
 
     public Long getId() {
